@@ -1,3 +1,3 @@
-export { CommentV1 } from './CommentV1';
-export { CommentTypeV1 } from './CommentTypeV1';
-export { CommentV1Schema } from './CommentV1Schema';
+export { PostV1 } from './PostV1';
+export { PostStatusV1 } from './PostStatusV1';
+export { PostV1Schema } from './PostV1Schema';
