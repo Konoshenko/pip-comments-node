@@ -15,7 +15,8 @@
     "pip-services3-container-node": "3.0.*",
     "pip-services3-data-node": "^3.0.*",
     "pip-services3-mongodb-node": "^3.0.*",
-    "pip-services3-rpc-node": "^3.0.*"
+    "pip-services3-rpc-node": "^3.0.*",
+    "restify-clients": "^2.6.9"
   },
   "devDependencies": {
     "@types/async": "^2.0.49",
