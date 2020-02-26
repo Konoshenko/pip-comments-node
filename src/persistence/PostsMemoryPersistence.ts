@@ -48,16 +48,16 @@ export class PostsMemoryPersistence
         super.getPageByFilter(correlationId, this.composeFilter(filter), paging, null, null, callback);
     }
 
-    /*public getOneByUdi(correlationId: string, udi: string,
-        callback: (err: any, item: PostsV1) => void): void {
+    public getOneById(correlationId: string, id: string,
+        callback: (err: any, item: PostV1) => void): void {
         
-        let item = _.find(this._items, (item) => item.udi == udi);
+        let item = _.find(this._items, (item) => item.id == id);
 
-        if (item != null) this._logger.trace(correlationId, "Found beacon by %s", udi);
-        else this._logger.trace(correlationId, "Cannot find beacon by %s", udi);
+        if (item != null) this._logger.trace(correlationId, "Found post by %s", id);
+        else this._logger.trace(correlationId, "Cannot find beacon by %s", id);
 
         callback(null, item);
-    }*/
+    }
 
 
 }

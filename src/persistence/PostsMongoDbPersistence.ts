@@ -49,20 +49,20 @@ export class PostsMongoDbPersistence
         super.getPageByFilter(correlationId, this.composeFilter(filter), paging, null, null, callback);
     }
 
-    /*public getOneByUdi(correlationId: string, udi: string,
+    public getOneByUdi(correlationId: string, id: string,
         callback: (err: any, item: PostV1) => void): void {
 
         let criteria = {
-            udi: udi
+            id: id
         };
 
-        this._model.findOne(criteria, (err, item) => {
+        this._client._model.findOne(criteria, (err, item) => {
             item = this.convertFromPublic(item);
 
-            if (item != null) this._logger.trace(correlationId, "Found beacon by %s", udi);
-            else this._logger.trace(correlationId, "Cannot find beacon by %s", udi);
+            if (item != null) this._logger.trace(correlationId, "Found post by %s", id);
+            else this._logger.trace(correlationId, "Cannot find beacon by %s", id);
 
             callback(err, item);
         });
-    }*/
+    }
 }

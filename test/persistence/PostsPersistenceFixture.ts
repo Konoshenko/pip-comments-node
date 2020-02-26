@@ -63,58 +63,58 @@ export class PostsPersistenceFixture {
         this._persistence = persistence;
     }
 
-    private testCreateBeacons(done) {
+    private testCreateposts(done) {
         async.series([
-            // Create the first beacon
+            // Create the first post
             (callback) => {
                 this._persistence.create(
                     null,
                     POST1,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(POST1.comment_count, beacon.comment_count);
-                        assert.equal(POST1.content_text, beacon.content_text);
-                        assert.equal(POST1.author_id, beacon.author_id);
-                        assert.equal(POST1.status, beacon.status);
+                        assert.isObject(post);
+                        assert.equal(POST1.comment_count, post.comment_count);
+                        assert.equal(POST1.content_text, post.content_text);
+                        assert.equal(POST1.author_id, post.author_id);
+                        assert.equal(POST1.status, post.status);
                         
 
                         callback();
                     }
                 );
             },
-            // Create the second beacon
+            // Create the second post
             (callback) => {
                 this._persistence.create(
                     null,
                     POST2,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(POST2.comment_count, beacon.comment_count);
-                        assert.equal(POST2.content_text, beacon.content_text);
-                        assert.equal(POST2.author_id, beacon.author_id);
-                        assert.equal(POST2.status, beacon.status);
+                        assert.isObject(post);
+                        assert.equal(POST2.comment_count, post.comment_count);
+                        assert.equal(POST2.content_text, post.content_text);
+                        assert.equal(POST2.author_id, post.author_id);
+                        assert.equal(POST2.status, post.status);
                     
 
                         callback();
                     }
                 );
             },
-            // Create the third beacon
+            // Create the third post
             (callback) => {
                 this._persistence.create(
                     null,
                     POST3,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST3.comment_count, beacon.comment_count);
-                        assert.equal(POST3.content_text, beacon.content_text);
-                        assert.equal(POST3.author_id, beacon.author_id);
-                        assert.equal(POST3.status, beacon.status);
+                        assert.isObject(post);
+                        assert.equal(POST3.comment_count, post.comment_count);
+                        assert.equal(POST3.content_text, post.content_text);
+                        assert.equal(POST3.author_id, post.author_id);
+                        assert.equal(POST3.status, post.status);
 
                         callback();
                     }
@@ -124,14 +124,14 @@ export class PostsPersistenceFixture {
     }
 
     public testCrudOperations(done) {
-        let beacon1: PostV1;
+        let postV1: PostV1;
 
         async.series([
             // Create items
             (callback) => {
-                this.testCreateBeacons(callback);
+                this.testCreateposts(callback);
             },
-            // Get all beacons
+            // Get all posts
             (callback) => {
                 this._persistence.getPageByFilter(
                     null,
@@ -143,69 +143,68 @@ export class PostsPersistenceFixture {
                         assert.isObject(page);
                         assert.lengthOf(page.data, 3);
 
-                        beacon1 = page.data[0];
+                        postV1 = page.data[0];
 
                         callback();
                     }
                 )
             },
-            // Update the beacon
+            // Update the post
             (callback) => {
-                beacon1.content_text = 'ABC';
+                postV1.content_text = 'ABC';
 
                 this._persistence.update(
                     null,
-                    beacon1,
-                    (err, beacon) => {
+                    postV1,
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
-                        assert.equal('ABC', beacon.content_text);
+                        assert.isObject(post);
+                        assert.equal(postV1.id, post.id);
+                        assert.equal('ABC', post.content_text);
 
                         callback();
                     }
                 )
             },
-            // Get beacon by udi
-            // (callback) => {
-            //     this._persistence.getOneByUdi(
-            //         null,
-            //         beacon1.udi,
-            //         (err, beacon) => {
-            //             assert.isNull(err);
-
-            //             assert.isObject(beacon);
-            //             assert.equal(beacon1.id, beacon.id);
-
-            //             callback();
-            //         }
-            //     )
-            // },
-            // Delete the beacon
-            (callback) => {
-                this._persistence.deleteById(
-                    null,
-                    beacon1.id,
-                    (err, beacon) => {
-                        assert.isNull(err);
-
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
-
-                        callback();
-                    }
-                )
-            },
-            // Try to get deleted beacon
+            //Get post by id
             (callback) => {
                 this._persistence.getOneById(
                     null,
-                    beacon1.id,
-                    (err, beacon) => {
+                    postV1.id,
+                    (err, post) => {
+                        assert.isNull(err);
+                        assert.isObject(post);
+                        assert.equal(postV1.id, post.id);
+
+                        callback();
+                    }
+                )
+            },
+            // Delete the post
+            (callback) => {
+                this._persistence.deleteById(
+                    null,
+                    postV1.id,
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isNull(beacon || null);
+                        assert.isObject(post);
+                        assert.equal(postV1.id, post.id);
+
+                        callback();
+                    }
+                )
+            },
+            // Try to get deleted post
+            (callback) => {
+                this._persistence.getOneById(
+                    null,
+                    postV1.id,
+                    (err, post) => {
+                        assert.isNull(err);
+
+                        assert.isNull(post || null);
 
                         callback();
                     }
@@ -218,7 +217,7 @@ export class PostsPersistenceFixture {
         async.series([
             // Create items
             (callback) => {
-                this.testCreateBeacons(callback);
+                this.testCreateposts(callback);
             },
             // Filter by id
             (callback) => {
