@@ -61,7 +61,7 @@ export class PostsCommandSet extends CommandSet {
 
     private makeGetPostByIdCommand(): ICommand {
         return new Command(
-            'get_beacon_by_id',
+            'get_post_by_id',
             new ObjectSchema(true)
                 .withRequiredProperty('id', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {

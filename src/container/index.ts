@@ -1,0 +1,1 @@
+export { PostsProcess } from "./PostsProcess";

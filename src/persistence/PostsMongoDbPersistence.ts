@@ -60,7 +60,7 @@ export class PostsMongoDbPersistence
             item = this.convertFromPublic(item);
 
             if (item != null) this._logger.trace(correlationId, "Found post by %s", id);
-            else this._logger.trace(correlationId, "Cannot find beacon by %s", id);
+            else this._logger.trace(correlationId, "Cannot find post by %s", id);
 
             callback(err, item);
         });
