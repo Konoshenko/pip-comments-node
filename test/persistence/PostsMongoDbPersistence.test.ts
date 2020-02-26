@@ -42,8 +42,8 @@ suite('PostsMongoDbPersistence', () => {
         fixture.testCrudOperations(done);
     });
 
-    // test('Get with Filters', (done) => {
-    //     fixture.testGetWithFilters(done);
-    // });
+     test('Get with Filters', (done) => {
+         fixture.testGetWithFilters(done);
+     });
 
 });

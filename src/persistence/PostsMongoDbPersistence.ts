@@ -16,9 +16,6 @@ export class PostsMongoDbPersistence
     
     constructor() {
         super("posts");
-        //base("mydata", new PostsMongoDbSchema());
-        
-    
     }
 
     private composeFilter(filter: FilterParams): any {
@@ -26,29 +23,24 @@ export class PostsMongoDbPersistence
 
         let criteria = [];
 
-        /*let id = filter.getAsNullableString('id');
+        let id = filter.getAsNullableString('id');
         if (id != null) 
             criteria.push({ _id: id });
 
-        let siteId = filter.getAsNullableString('site_id');
-        if (siteId != null)
-            criteria.push({ site_id: siteId });
+        let authorId = filter.getAsNullableString('author_id');
+        if (authorId != null)
+            criteria.push({ author_id: authorId });
 
-        let label = filter.getAsNullableString('label');
-        if (label != null)
-            criteria.push({ label: label });
+        let status = filter.getAsNullableString('status');
+        if (status != null)
+            criteria.push({ status: status });
 
-        let udi = filter.getAsNullableString('udi');
-        if (udi != null) {
-            criteria.push({ udi: udi });
-        }
+        let authorIds = filter.getAsObject('author_ids');
+        if (_.isString(authorIds))
+        authorIds = authorIds.split(',');
+        if (_.isArray(authorIds))
+            criteria.push({ author_id: { $in: authorIds } });
 
-        let udis = filter.getAsObject('udis');
-        if (_.isString(udis))
-            udis = udis.split(',');
-        if (_.isArray(udis))
-            criteria.push({ udi: { $in: udis } });
-*/
         return criteria.length > 0 ? { $and: criteria } : null;
     }
 

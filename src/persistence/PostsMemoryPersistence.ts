@@ -23,24 +23,22 @@ export class PostsMemoryPersistence
 
         let id = filter.getAsNullableString('id');
         let status = filter.getAsNullableString('status');
-        //let udi = filter.getAsNullableString('udi');
-        // let udis = filter.getAsObject('udis');
-        // if (_.isString(udis))
-        //     udis = udis.split(',');
-        // if (!_.isArray(udis))
-        //     udis = null;
+        let author_id = filter.getAsNullableString('author_id');
+        let authorIds = filter.getAsObject('author_ids');
+        if (_.isString(authorIds))
+        authorIds = authorIds.split(',');
+        if (!_.isArray(authorIds))
+        authorIds = null;
 
         return (item) => {
             if (id != null && item.id != id)
                 return false;
              if (status != null && item.status != status)
                  return false;
-            // if (label != null && item.label != label)
-            //     return false;
-            // if (udi != null && item.udi != udi)
-            //     return false;
-            // if (udis != null && _.indexOf(udis, item.udi) < 0)
-            //     return false;
+            if (author_id != null && item.author_id != author_id)
+                return false;
+            if (authorIds != null && _.indexOf(authorIds, item.author_id) < 0)
+                return false;
             return true;
         };
     }

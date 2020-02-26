@@ -12,7 +12,7 @@ import { IPostsPersistence } from '../../src/persistence/IPostsPersistence';
 const POST1: PostV1 = {
     id: '1',
     author_id: '1',
-    status: PostStatusV1.Archive,
+    status: PostStatusV1.Public,
     content_text: 'First post in system',
     create_time: "string",
     update_time: "string",
@@ -41,7 +41,7 @@ const POST2: PostV1 = {
 
 const POST3: PostV1 = {
     id: '3',
-    author_id: '1',
+    author_id: '2',
     status: PostStatusV1.Archive,
     content_text: 'Third post in system',
     create_time: "string",
@@ -53,24 +53,7 @@ const POST3: PostV1 = {
     report_count: 0,
     like_count: 0,
 };
-// const BEACON2: PostV1 = {
-//     id: '2',
-//     udi: '00002',
-//     type: BeaconTypeV1.iBeacon,
-//     site_id: '1',
-//     label: 'TestBeacon2',
-//     center: { type: 'Point', coordinates: [ 2, 2 ] },
-//     radius: 70
-// };
-// const BEACON3: PostV1 = {
-//     id: '3',
-//     udi: '00003',
-//     type: BeaconTypeV1.AltBeacon,
-//     site_id: '2',
-//     label: 'TestBeacon3',
-//     center: { type: 'Point', coordinates: [ 10, 10 ] },
-//     radius: 50
-// };
+
 
 export class PostsPersistenceFixture {
     private _persistence: IPostsPersistence;
@@ -127,7 +110,6 @@ export class PostsPersistenceFixture {
                     POST3,
                     (err, beacon) => {
                         assert.isNull(err);
-
                         assert.isObject(beacon);
                         assert.equal(POST3.comment_count, beacon.comment_count);
                         assert.equal(POST3.content_text, beacon.content_text);
@@ -232,80 +214,80 @@ export class PostsPersistenceFixture {
         ], done);
     }
 
-    // public testGetWithFilters(done) {
-    //     async.series([
-    //         // Create items
-    //         (callback) => {
-    //             this.testCreateBeacons(callback);
-    //         },
-    //         // Filter by id
-    //         (callback) => {
-    //             this._persistence.getPageByFilter(
-    //                 null,
-    //                 FilterParams.fromTuples(
-    //                     'id', '1'
-    //                 ),
-    //                 new PagingParams(),
-    //                 (err, page) => {
-    //                     assert.isNull(err);
+    public testGetWithFilters(done) {
+        async.series([
+            // Create items
+            (callback) => {
+                this.testCreateBeacons(callback);
+            },
+            // Filter by id
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromTuples(
+                        'id', '1'
+                    ),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
 
-    //                     assert.lengthOf(page.data, 1);
+                        assert.lengthOf(page.data, 1);
 
-    //                     callback();
-    //                 }
-    //             )
-    //         },
-    //         // Filter by udi
-    //         (callback) => {
-    //             this._persistence.getPageByFilter(
-    //                 null,
-    //                 FilterParams.fromTuples(
-    //                     'udi', '00002'
-    //                 ),
-    //                 new PagingParams(),
-    //                 (err, page) => {
-    //                     assert.isNull(err);
+                        callback();
+                    }
+                )
+            },
+            // Filter by udi
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromTuples(
+                        'author_id', '1'
+                    ),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
 
-    //                     assert.lengthOf(page.data, 1);
+                        assert.lengthOf(page.data, 2);
 
-    //                     callback();
-    //                 }
-    //             )
-    //         },
-    //         // Filter by udis
-    //         (callback) => {
-    //             this._persistence.getPageByFilter(
-    //                 null,
-    //                 FilterParams.fromTuples(
-    //                     'udis', '00001,00003'
-    //                 ),
-    //                 new PagingParams(),
-    //                 (err, page) => {
-    //                     assert.isNull(err);
+                        callback();
+                    }
+                )
+            },
+            //Filter by author_ids
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromTuples(
+                        'author_ids', '1,2'
+                    ),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
 
-    //                     assert.lengthOf(page.data, 2);
+                        assert.lengthOf(page.data, 3);
 
-    //                     callback();
-    //                 }
-    //             )
-    //         },
-    //         // Filter by site_id
-    //         (callback) => {
-    //             this._persistence.getPageByFilter(
-    //                 null,
-    //                 FilterParams.fromTuples(
-    //                     'site_id', '1'
-    //                 ),
-    //                 new PagingParams(),
-    //                 (err, page) => {
-    //                     assert.isNull(err);
+                        callback();
+                    }
+                )
+            },
+            // Filter by site_id
+            (callback) => {
+                this._persistence.getPageByFilter(
+                    null,
+                    FilterParams.fromTuples(
+                        'status', PostStatusV1.Public
+                    ),
+                    new PagingParams(),
+                    (err, page) => {
+                        assert.isNull(err);
 
-    //                     assert.lengthOf(page.data, 2);
+                        assert.lengthOf(page.data, 1);
 
-    //                     callback();
-    //                 }
-    //             )
-    //         },
-    //     ], done);
-    // }
+                        callback();
+                    }
+                )
+            },
+        ], done);
+    }
 }
