@@ -15,10 +15,7 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         super();
         this._dependencyResolver.put('controller', new Descriptor('posts', 'controller', '*', '*', '1.0'));
     }
-    addLikeToPost(correlationId: string, siteId: string, callback: (err: any, post: PostV1) => void): void {
-        throw new Error("Method not implemented.");
-    }
-
+  
     public getPosts(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<PostV1>) => void): void {
         let timing = this.instrument(correlationId, 'posts.get_posts');
@@ -46,14 +43,14 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         }); 
     }
 
-    // public calculatePosition(correlationId: string, siteId: string, udis: string[], 
-    //     callback: (err: any, position: any) => void): void {
-    //     let timing = this.instrument(correlationId, 'beacons.calculate_position');
-    //     this._controller.calculatePosition(correlationId, siteId, udis, (err, position) => {
-    //         timing.endTiming();
-    //         callback(err, position);
-    //     }); 
-    // }
+    public addLikeToPost(correlationId: string, siteId: string, 
+        callback: (err: any, position: PostV1) => void): void {
+        let timing = this.instrument(correlationId, 'posts.add_like_to_post');
+        this._controller.addLikeToPost(correlationId, siteId, (err, position) => {
+            timing.endTiming();
+            callback(err, position);
+        }); 
+    }
 
     public createPost(correlationId: string, post: PostV1,
         callback: (err: any, beacon: PostV1) => void): void {

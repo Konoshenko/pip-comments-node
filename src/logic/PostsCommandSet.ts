@@ -106,11 +106,11 @@ export class PostsCommandSet extends CommandSet {
 
     private makeAddLikeToPost(): ICommand {
         return new Command(
-            'calculate_position',
+            'add_like_to_post',
             new ObjectSchema(true)
-                .withRequiredProperty('site_id', TypeCode.String),
+                .withRequiredProperty('post_id', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-                let siteId = args.getAsString('site_id');
+                let siteId = args.getAsString('post_id');
                 this._controller.addLikeToPost(correlationId, siteId, callback);
             }
         );
