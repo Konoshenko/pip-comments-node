@@ -15,23 +15,7 @@ import { PostV1 } from '../data/v1';
 export class PostsCommandSet extends CommandSet {
     private _controller: IPostsController;
 
-    // getposts(correlationId: string, filter: FilterParams, paging: PagingParams,
-    //     callback: (err: any, page: DataPage<PostV1>) => void): void;
-
-    // getpostById(correlationId: string, postId: string,
-    //     callback: (err: any, page: PostV1) => void): void;
-
-    // getpostByAuthor(correlationId: string, authorId: string,
-    //     callback: (err: any, page: PostV1) => void): void;
-
-    // createpost(correlationId: string, post: PostV1,
-    //     callback: (err: any, post: PostV1) => void): void;
-
-    // updatepost(correlationId: string, post: PostV1,
-    //     callback: (err: any, post: PostV1) => void): void;
-
-    // deletepostById(correlationId: string, postId: string,
-    //     callback: (err: any, post: PostV1) => void): void;
+    
     constructor(controller: IPostsController) {
         super();
 
@@ -43,7 +27,7 @@ export class PostsCommandSet extends CommandSet {
          this.addCommand(this.makeGetPostByAuthorId());
          this.addCommand(this.makeGetPostByIdCommand());
          this.addCommand(this.makeUpdatePostCommand());
-        // this.addCommand(this.makeDeleteBeaconByIdCommand());
+         this.addCommand(this.makeAddLikeToPost());
     }
 
     private makeGetPostsCommand(): ICommand {
@@ -120,19 +104,17 @@ export class PostsCommandSet extends CommandSet {
         );
     }
 
-    // private makeCalculatePositionCommand(): ICommand {
-    //     return new Command(
-    //         'calculate_position',
-    //         new ObjectSchema(true)
-    //             .withRequiredProperty('site_id', TypeCode.String)
-    //             .withRequiredProperty('udis', new ArraySchema(TypeCode.String)),
-    //         (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-    //             let siteId = args.getAsString('site_id');
-    //             let udis = args.getAsObject('udis');
-    //             this._controller.calculatePosition(correlationId, siteId, udis, callback);
-    //         }
-    //     );
-    // }
+    private makeAddLikeToPost(): ICommand {
+        return new Command(
+            'calculate_position',
+            new ObjectSchema(true)
+                .withRequiredProperty('site_id', TypeCode.String),
+            (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
+                let siteId = args.getAsString('site_id');
+                this._controller.addLikeToPost(correlationId, siteId, callback);
+            }
+        );
+    }
 
      
 

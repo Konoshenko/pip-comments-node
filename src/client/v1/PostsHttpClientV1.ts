@@ -7,10 +7,21 @@ import { PostV1 } from '../../data/v1/PostV1';
 import { IPostsClientV1 } from './IPostsClientV1';
 
 export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsClientV1 {
-    
-    
+
+
     public constructor() {
         super('v1/posts');
+    }
+    addLikeToPost(correlationId: string, postId: string,
+        callback: (err: any, post: PostV1) => void): void {
+        this.callCommand(
+            'add_like_to_post',
+            correlationId,
+            {
+                post_id: postId
+            },
+            callback
+        );
     }
 
     public getPosts(correlationId: string, filter: FilterParams, paging: PagingParams,
@@ -81,7 +92,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
                 post: post
             },
             callback
-        );    
+        );
     }
 
     public deletePostById(correlationId: string, postId: string,

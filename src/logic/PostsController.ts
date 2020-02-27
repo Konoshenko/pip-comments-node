@@ -78,57 +78,27 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
     }
 
 
-    // public calculatePosition(correlationId: string, siteId: string, udis: string[],
-    //     callback: (err: any, position: any) => void): void {
-    //         let beacons: BeaconV1[];
-    //         let position: any = null;
-
-    //         if (udis == null || udis.length == 0) {
-    //             callback(null, null);
-    //             return;
-    //         }
-
-    //         async.series([
-    //             (callback) => {
-    //                 this._persistence.getPageByFilter(
-    //                     correlationId,
-    //                     FilterParams.fromTuples(
-    //                         'site_id', siteId,
-    //                         'udis', udis
-    //                     ),
-    //                     null,
-    //                     (err, page) => {
-    //                         beacons = page ? page.data : [];
-    //                         callback(err);
-    //                     }
-    //                 );
-    //             },
-    //             (callback) => {
-    //                 let lat = 0;
-    //                 let lng = 0;
-    //                 let count = 0;
-
-    //                 for (let beacon of beacons) {
-    //                     if (beacon.center != null 
-    //                         && beacon.center.type == 'Point'
-    //                         && _.isArray(beacon.center.coordinates)) {
-    //                             lng += beacon.center.coordinates[0];
-    //                             lat += beacon.center.coordinates[1];
-    //                             count += 1;
-    //                         }
-    //                 }
-
-    //                 if (count > 0) {
-    //                     position = {
-    //                         type: 'Point',
-    //                         coordinates: [lng / count, lat / count]
-    //                     }
-    //                 }
-
-    //                 callback();
-    //             }
-    //         ], (err) => { callback(err, err == null ? position : null);  });
-    // }
+    public addLikeToPost(correlationId: string, siteId: string,
+        callback: (err: any, position: any) => void): void {
+            let postN: PostV1;
+        
+            async.series([
+                (callback) => {
+                    this._persistence.getOneById(
+                        correlationId,
+                        siteId,
+                        (err, page) => {
+                            postN = page ? page : null;
+                            callback(err);
+                        }
+                    );
+                },
+                (callback) => {
+                    postN.like_count = postN.like_count + 1
+                    callback();
+                }
+            ], (err) => { callback(err, err == null ? postN : null);  });
+    }
 
 
 }

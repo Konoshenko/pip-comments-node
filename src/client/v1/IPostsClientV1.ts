@@ -14,8 +14,8 @@ export interface IPostsClientV1 {
     getPostByAuthorId(correlationId: string, authorId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    // calculatePosition(correlationId: string, siteId: string, udis: string[], 
-    //     callback: (err: any, position: any) => void): void;
+    addLikeToPost(correlationId: string, siteId: string, 
+        callback: (err: any, post: PostV1) => void): void;
 
     createPost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void;

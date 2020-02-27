@@ -22,10 +22,10 @@ export class PostsNullClientV1 implements IPostsClientV1 {
         callback(null, null);
     }
 
-    // public calculatePosition(correlationId: string, siteId: string, udis: string[], 
-    //     callback: (err: any, position: any) => void): void {
-    //     callback(null, null);
-    // }
+    public addLikeToPost(correlationId: string, siteId: string, 
+        callback: (err: any, post: PostV1) => void): void {
+        callback(null, null);
+    }
 
     public createPost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {

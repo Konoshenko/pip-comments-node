@@ -15,6 +15,9 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         super();
         this._dependencyResolver.put('controller', new Descriptor('posts', 'controller', '*', '*', '1.0'));
     }
+    addLikeToPost(correlationId: string, siteId: string, callback: (err: any, post: PostV1) => void): void {
+        throw new Error("Method not implemented.");
+    }
 
     public getPosts(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<PostV1>) => void): void {
