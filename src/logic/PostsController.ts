@@ -63,6 +63,8 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
         callback: (err: any, post: PostV1) => void): void {
         post.id = post.id || IdGenerator.nextLong();
         post.status = post.status || PostStatusV1.Public;
+        
+        post.create_time = new Date(Date.now()).toISOString();
         this._persistence.create(correlationId, post, callback);
     }
     public updatePost(correlationId: string, post: PostV1,

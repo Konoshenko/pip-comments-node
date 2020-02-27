@@ -10,6 +10,7 @@ import { Parameters } from 'pip-services3-commons-node';
 
 import { PostV1Schema } from '../data/v1/PostV1Schema';
 import { IPostsController } from './IPostsController';
+import { PostV1 } from '../data/v1';
 
 export class PostsCommandSet extends CommandSet {
     private _controller: IPostsController;
@@ -73,7 +74,7 @@ export class PostsCommandSet extends CommandSet {
 
     private makeGetPostByAuthorId(): ICommand {
         return new Command(
-            'get_beacon_by_id',
+            'get_post_by_author_id',
             new ObjectSchema(true)
                 .withRequiredProperty('author_id', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {

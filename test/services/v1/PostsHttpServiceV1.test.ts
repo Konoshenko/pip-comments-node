@@ -110,7 +110,7 @@ suite('PostsHttpServiceV1', () => {
                         assert.isObject(beacon);
                         assert.equal(POST1.author_id, beacon.author_id);
                         assert.equal(POST1.content_text, beacon.content_text);
-                        assert.equal(POST1.create_time, beacon.create_time);
+                     
                         assert.equal(POST1.id, beacon.id);
 
                         callback();
@@ -128,7 +128,7 @@ suite('PostsHttpServiceV1', () => {
                         assert.isObject(beacon);
                         assert.equal(POST2.author_id, beacon.author_id);
                         assert.equal(POST2.content_text, beacon.content_text);
-                        assert.equal(POST2.create_time, beacon.create_time);
+                        
                         assert.equal(POST2.id, beacon.id);
 
                         callback();
