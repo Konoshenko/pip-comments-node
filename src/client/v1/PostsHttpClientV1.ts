@@ -12,6 +12,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
     public constructor() {
         super('v1/posts');
     }
+
     addLikeToPost(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
@@ -24,18 +25,19 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
         );
     }
 
-    takeRepostByPostId(correlationId: string, postId: string,
+    takeRepostByPostId(correlationId: string, postId: string,authorId: string,
         callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'take_repost',
             correlationId,
             {
-                post_id: postId
+                post_id: postId,
+                author_id: authorId
             },
             callback
         );
     }
-    
+
     public getPosts(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<PostV1>) => void): void {
         this.callCommand(
@@ -69,19 +71,6 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
             callback
         );
     }
-
-    // public calculatePosition(correlationId: string, siteId: string, udis: string[], 
-    //     callback: (err: any, position: any) => void): void {
-    //     this.callCommand(
-    //         'calculate_position',
-    //         correlationId,
-    //         {
-    //             site_id: siteId,
-    //             udis: udis
-    //         },
-    //         callback
-    //     );    
-    // }
 
     public createPost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {

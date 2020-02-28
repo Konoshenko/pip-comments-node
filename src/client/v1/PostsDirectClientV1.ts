@@ -34,15 +34,6 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         }); 
     }
 
-    public getPostByAuthorId(correlationId: string, authorId: string,
-        callback: (err: any, beacon: PostV1) => void): void {
-        let timing = this.instrument(correlationId, 'posts.get_post_by_author_id');
-        this._controller.getPostByAuthor(correlationId, authorId, (err, beacon) => {
-            timing.endTiming();
-            callback(err, beacon);
-        }); 
-    }
-
     public addLikeToPost(correlationId: string, siteId: string, 
         callback: (err: any, position: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.add_like_to_post');
@@ -52,10 +43,10 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         }); 
     }
 
-    public takeRepostByPostId(correlationId: string, siteId: string, 
+    public takeRepostByPostId(correlationId: string, postId: string, authorId: string, 
         callback: (err: any, position: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.take_repost');
-        this._controller.takeRepostByPostId(correlationId, siteId, (err, position) => {
+        this._controller.takeRepostByPostId(correlationId, postId,authorId, (err, position) => {
             timing.endTiming();
             callback(err, position);
         }); 

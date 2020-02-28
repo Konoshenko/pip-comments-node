@@ -16,7 +16,7 @@ const POST1: PostV1 = {
     content_text: 'First post in system',
     create_time: "string",
     update_time: "string",
-    attachment_ids: ["asd","asd"],
+    attachment_ids: [],
     comment_count: 0,
     view_count: 0,
     repost_count: 0,
@@ -31,7 +31,7 @@ const POST2: PostV1 = {
     content_text: 'Second post in system',
     create_time: "string",
     update_time: "string",
-    attachment_ids: ["asd","asd"],
+    attachment_ids: [],
     comment_count: 0,
     view_count: 0,
     repost_count: 0,
@@ -51,7 +51,7 @@ export class PostsClientV1Fixture {
         let post1: PostV1;
 
         async.series([
-            // Create the first beacon
+            // Create the first post
             (callback) => {
                 this._client.createPost(
                     null,
@@ -61,32 +61,27 @@ export class PostsClientV1Fixture {
                         assert.isObject(post);
                         assert.equal(POST1.author_id, post.author_id);
                         assert.equal(POST1.content_text, post.content_text);
-                    
                         assert.equal(POST1.id, post.id);
-
                         callback();
                     }
                 );
             },
-            // Create the second beacon
+            // Create the second post
             (callback) => {
                 this._client.createPost(
                     null,
                     POST2,
                     (err, post) => {
                         assert.isNull(err);
-
                         assert.isObject(post);
                         assert.equal(POST2.author_id, post.author_id);
                         assert.equal(POST2.content_text, post.content_text);
-            
                         assert.equal(POST2.id, post.id);
-
                         callback();
                     }
                 );
             },
-            // Get all beacons
+            // Get all posts
             (callback) => {
                 this._client.getPosts(
                     null,
@@ -94,20 +89,16 @@ export class PostsClientV1Fixture {
                     new PagingParams(),
                     (err, page) => {
                         assert.isNull(err);
-
                         assert.isObject(page);
                         assert.lengthOf(page.data, 2);
-
                         post1 = page.data[0];
-
                         callback();
                     }
                 )
             },
-            // Update the beacon
+            // Update the post
             (callback) => {
                 post1.content_text = 'ABC';
-
                 this._client.updatePost(
                     null,
                     post1,
@@ -116,7 +107,6 @@ export class PostsClientV1Fixture {
                         assert.isObject(post);
                         assert.equal(post1.id, post.id);
                         assert.equal('ABC', post.content_text);
-
                         callback();
                     }
                 )
@@ -188,6 +178,7 @@ export class PostsClientV1Fixture {
                 this._client.takeRepostByPostId(
                     null,
                     POST1.id,
+                    "444",
                     (err, beacon) => {
                         assert.isNull(err);
                         assert.isObject(beacon);

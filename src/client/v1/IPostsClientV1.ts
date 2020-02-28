@@ -11,13 +11,10 @@ export interface IPostsClientV1 {
     getPostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    getPostByAuthorId(correlationId: string, authorId: string,
-        callback: (err: any, post: PostV1) => void): void;
-
     addLikeToPost(correlationId: string, siteId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    takeRepostByPostId(correlationId: string, siteId: string,
+    takeRepostByPostId(correlationId: string, postId: string,authorId: string,
         callback: (err: any, post: PostV1) => void): void;
 
     createPost(correlationId: string, post: PostV1,

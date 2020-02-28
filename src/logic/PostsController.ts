@@ -49,39 +49,38 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
         callback: (err: any, page: DataPage<PostV1>) => void): void {
         this._persistence.getPageByFilter(correlationId, filter, paging, callback);
     }
+
     public getPostById(correlationId: string, postId: string,
         callback: (err: any, page: PostV1) => void): void {
         this._persistence.getOneById(correlationId, postId, callback);
-    }
-
-    public getPostByAuthor(correlationId: string, authorId: string,
-        callback: (err: any, page: PostV1) => void): void {
-        throw new Error("Method not implemented.");
     }
 
     public createPost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         post.id = post.id || IdGenerator.nextLong();
         post.status = post.status || PostStatusV1.Public;
-
         post.create_time = new Date(Date.now()).toISOString();
+        post.update_time = post.create_time;
+
         this._persistence.create(correlationId, post, callback);
     }
+
     public updatePost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         post.status = post.status || PostStatusV1.Archive;
+        post.update_time = new Date(Date.now()).toISOString();
+
         this._persistence.update(correlationId, post, callback);
     }
+
     public deletePostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void {
         this._persistence.deleteById(correlationId, postId, callback);
     }
 
-
     public addLikeToPost(correlationId: string, siteId: string,
         callback: (err: any, position: any) => void): void {
         let postN: PostV1;
-
         async.series([
             (callback) => {
                 this._persistence.getOneById(
@@ -100,9 +99,10 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
         ], (err) => { callback(err, err == null ? postN : null); });
     }
 
-    public takeRepostByPostId(correlationId: string, postId: string,
+    public takeRepostByPostId(correlationId: string, postId: string, authorId: string,
         callback: (err: any, position: any) => void): void {
         let postN: PostV1;
+        let postReposted:PostV1 
         async.series([
             (callback) => {
                 this._persistence.getOneById(
@@ -115,7 +115,6 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
                 );
             },
             (callback) => {
-
                 postN.repost_count = postN.repost_count + 1
                 this._persistence.update(correlationId, postN, (err, page) => {
                     postN = page ? page : null;
@@ -123,11 +122,13 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
                 });
 
             }, (callback) => {
-                postN.id = IdGenerator.nextLong();
-                postN.attachment_ids.push(postId);
-                this._persistence.create(correlationId, postN, callback());
+                postReposted  = {...postN};
+                postReposted.id = IdGenerator.nextLong();
+                postReposted.author_id = authorId;
+                postReposted.attachment_ids.push(postId);
+                this._persistence.create(correlationId, postReposted, callback());
             }
-        ], (err) => { callback(err, err == null ? postN : null); });
+        ], (err) => { callback(err, err == null ? postReposted : null); });
     }
 
 }

@@ -15,20 +15,19 @@ import { PostV1 } from '../data/v1';
 export class PostsCommandSet extends CommandSet {
     private _controller: IPostsController;
 
-    
+
     constructor(controller: IPostsController) {
         super();
 
         this._controller = controller;
 
         this.addCommand(this.makeGetPostsCommand());
-         this.addCommand(this.makeCreatePostCommand());
-         this.addCommand(this.makeDeletePostByIdCommand());
-         this.addCommand(this.makeGetPostByAuthorId());
-         this.addCommand(this.makeGetPostByIdCommand());
-         this.addCommand(this.makeUpdatePostCommand());
-         this.addCommand(this.makeAddLikeToPost());
-         this.addCommand(this.makeTakeRepostByPostId());
+        this.addCommand(this.makeCreatePostCommand());
+        this.addCommand(this.makeDeletePostByIdCommand());
+        this.addCommand(this.makeGetPostByIdCommand());
+        this.addCommand(this.makeUpdatePostCommand());
+        this.addCommand(this.makeAddLikeToPost());
+        this.addCommand(this.makeTakeRepostByPostId());
     }
 
     private makeGetPostsCommand(): ICommand {
@@ -57,18 +56,6 @@ export class PostsCommandSet extends CommandSet {
         );
     }
 
-    private makeGetPostByAuthorId(): ICommand {
-        return new Command(
-            'get_post_by_author_id',
-            new ObjectSchema(true)
-                .withRequiredProperty('author_id', TypeCode.String),
-            (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
-                let authorId = args.getAsString('author_id');
-                this._controller.getPostByAuthor(correlationId, authorId, callback);
-            }
-        );
-    }
-
     private makeCreatePostCommand(): ICommand {
         return new Command(
             'create_post',
@@ -79,8 +66,8 @@ export class PostsCommandSet extends CommandSet {
                 this._controller.createPost(correlationId, post, callback);
             }
         );
-    } 
-    
+    }
+
     private makeUpdatePostCommand(): ICommand {
         return new Command(
             'update_post',
@@ -91,7 +78,7 @@ export class PostsCommandSet extends CommandSet {
                 this._controller.updatePost(correlationId, post, callback);
             }
         );
-    }   
+    }
 
     private makeDeletePostByIdCommand(): ICommand {
         return new Command(
@@ -121,18 +108,13 @@ export class PostsCommandSet extends CommandSet {
         return new Command(
             'take_repost',
             new ObjectSchema(true)
-                .withRequiredProperty('post_id', TypeCode.String),
+                .withRequiredProperty('post_id', TypeCode.String)
+                .withRequiredProperty('author_id', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let siteId = args.getAsString('post_id');
-                this._controller.takeRepostByPostId(correlationId, siteId, callback);
+                let authorId = args.getAsString('author_id');
+                this._controller.takeRepostByPostId(correlationId, siteId, authorId, callback);
             }
         );
     }
-
-     
-
-    
-    
-    
-
 }
