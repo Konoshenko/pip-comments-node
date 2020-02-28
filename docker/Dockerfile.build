@@ -12,6 +12,8 @@ COPY package*.json ./
 # install ALL node_modules, including 'devDependencies'
 RUN npm install
 
+RUN npm audit fix --force
+
 # copy all project
 COPY . .
 

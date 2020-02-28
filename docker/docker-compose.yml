@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   post_pip:
-    image: post_pip:latest
+    image: post-service:latest
     ports:
       - "8080:8080"  
     depends_on:
