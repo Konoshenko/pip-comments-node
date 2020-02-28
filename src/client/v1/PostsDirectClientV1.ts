@@ -52,6 +52,15 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         }); 
     }
 
+    public takeRepostByPostId(correlationId: string, siteId: string, 
+        callback: (err: any, position: PostV1) => void): void {
+        let timing = this.instrument(correlationId, 'posts.take_repost');
+        this._controller.takeRepostByPostId(correlationId, siteId, (err, position) => {
+            timing.endTiming();
+            callback(err, position);
+        }); 
+    }
+    
     public createPost(correlationId: string, post: PostV1,
         callback: (err: any, beacon: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.create_post');

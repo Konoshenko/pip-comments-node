@@ -24,6 +24,18 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
         );
     }
 
+    takeRepostByPostId(correlationId: string, postId: string,
+        callback: (err: any, post: PostV1) => void): void {
+        this.callCommand(
+            'take_repost',
+            correlationId,
+            {
+                post_id: postId
+            },
+            callback
+        );
+    }
+    
     public getPosts(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<PostV1>) => void): void {
         this.callCommand(

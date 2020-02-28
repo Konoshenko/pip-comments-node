@@ -166,64 +166,38 @@ export class PostsClientV1Fixture {
         ], done);
     }
 
-    // public testCalculatePosition(done) {
-    //     async.series([
-    //         // Create the first beacon
-    //         (callback) => {
-    //             this._client.createBeacon(
-    //                 null,
-    //                 BEACON1,
-    //                 (err, beacon) => {
-    //                     assert.isNull(err);
+    public testTakeRepost(done) {
+        async.series([
+            // Create the first beacon
+            (callback) => {
+                this._client.createPost(
+                    null,
+                    POST1,
+                    (err, beacon) => {
+                        assert.isNull(err);
 
-    //                     assert.isObject(beacon);
-    //                     assert.equal(BEACON1.udi, beacon.udi);
-    //                     assert.equal(BEACON1.site_id, beacon.site_id);
-    //                     assert.equal(BEACON1.type, beacon.type);
-    //                     assert.equal(BEACON1.label, beacon.label);
-    //                     assert.isNotNull(beacon.center);
-
-    //                     callback();
-    //                 }
-    //             );
-    //         },
-    //         // Create the second beacon
-    //         (callback) => {
-    //             this._client.createBeacon(
-    //                 null,
-    //                 BEACON2,
-    //                 (err, beacon) => {
-    //                     assert.isNull(err);
-
-    //                     assert.isObject(beacon);
-    //                     assert.equal(BEACON2.udi, beacon.udi);
-    //                     assert.equal(BEACON2.site_id, beacon.site_id);
-    //                     assert.equal(BEACON2.type, beacon.type);
-    //                     assert.equal(BEACON2.label, beacon.label);
-    //                     assert.isNotNull(beacon.center);
-
-    //                     callback();
-    //                 }
-    //             );
-    //         },
-    //         // Calculate position for one beacon
-    //         (callback) => {
-    //             this._client.calculatePosition(
-    //                 null, '1', ['00001'],
-    //                 (err, position) => {
-    //                     assert.isNull(err);
-
-    //                     assert.isObject(position);
-    //                     assert.equal('Point', position.type);
-    //                     assert.lengthOf(position.coordinates, 2);
-    //                     assert.equal(0, position.coordinates[0]);
-    //                     assert.equal(0, position.coordinates[1]);
-
-    //                     callback();
-    //                 }
-    //             )
-    //         }
-    //     ], done);
-    // }
+                        assert.isObject(beacon);
+                        assert.equal(POST1.id, beacon.id);
+                    
+                        callback();
+                    }
+                );
+            },
+            // Take repost
+            (callback) => {
+                this._client.takeRepostByPostId(
+                    null,
+                    POST1.id,
+                    (err, beacon) => {
+                        assert.isNull(err);
+                        assert.isObject(beacon);
+                        assert.equal(POST1.content_text, beacon.content_text);
+                        assert.notEqual(POST1.id, beacon.id);
+                        callback();
+                    }
+                );
+            },
+        ], done);
+    }
 }
 

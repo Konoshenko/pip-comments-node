@@ -22,7 +22,11 @@ export interface IPostsController {
 
     addLikeToPost(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
-        
+
     deletePostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
+
+    takeRepostByPostId(correlationId: string, postId: string,
+        callback: (err: any, post: PostV1) => void): void;
+
 }

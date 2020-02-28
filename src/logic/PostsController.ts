@@ -63,7 +63,7 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
         callback: (err: any, post: PostV1) => void): void {
         post.id = post.id || IdGenerator.nextLong();
         post.status = post.status || PostStatusV1.Public;
-        
+
         post.create_time = new Date(Date.now()).toISOString();
         this._persistence.create(correlationId, post, callback);
     }
@@ -80,25 +80,54 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
 
     public addLikeToPost(correlationId: string, siteId: string,
         callback: (err: any, position: any) => void): void {
-            let postN: PostV1;
-        
-            async.series([
-                (callback) => {
-                    this._persistence.getOneById(
-                        correlationId,
-                        siteId,
-                        (err, page) => {
-                            postN = page ? page : null;
-                            callback(err);
-                        }
-                    );
-                },
-                (callback) => {
-                    postN.like_count = postN.like_count + 1
-                    callback();
-                }
-            ], (err) => { callback(err, err == null ? postN : null);  });
+        let postN: PostV1;
+
+        async.series([
+            (callback) => {
+                this._persistence.getOneById(
+                    correlationId,
+                    siteId,
+                    (err, page) => {
+                        postN = page ? page : null;
+                        callback(err);
+                    }
+                );
+            },
+            (callback) => {
+                postN.like_count = postN.like_count + 1
+                callback();
+            }
+        ], (err) => { callback(err, err == null ? postN : null); });
     }
 
+    public takeRepostByPostId(correlationId: string, postId: string,
+        callback: (err: any, position: any) => void): void {
+        let postN: PostV1;
+        async.series([
+            (callback) => {
+                this._persistence.getOneById(
+                    correlationId,
+                    postId,
+                    (err, page) => {
+                        postN = page ? page : null;
+                        callback(err);
+                    }
+                );
+            },
+            (callback) => {
+
+                postN.repost_count = postN.repost_count + 1
+                this._persistence.update(correlationId, postN, (err, page) => {
+                    postN = page ? page : null;
+                    callback(err);
+                });
+
+            }, (callback) => {
+                postN.id = IdGenerator.nextLong();
+                postN.attachment_ids.push(postId);
+                this._persistence.create(correlationId, postN, callback());
+            }
+        ], (err) => { callback(err, err == null ? postN : null); });
+    }
 
 }

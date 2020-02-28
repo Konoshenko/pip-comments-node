@@ -75,8 +75,8 @@ suite('PostsHttpClientV1', () => {
         fixture.testCrudOperations(done);
     });
 
-    // test('Calculate Position', (done) => {
-    //     fixture.testCalculatePosition(done);
-    // });
+    test('Take repost Position', (done) => {
+        fixture.testTakeRepost(done);
+    });
 
 });

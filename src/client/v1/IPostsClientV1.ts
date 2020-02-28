@@ -14,7 +14,10 @@ export interface IPostsClientV1 {
     getPostByAuthorId(correlationId: string, authorId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    addLikeToPost(correlationId: string, siteId: string, 
+    addLikeToPost(correlationId: string, siteId: string,
+        callback: (err: any, post: PostV1) => void): void;
+
+    takeRepostByPostId(correlationId: string, siteId: string,
         callback: (err: any, post: PostV1) => void): void;
 
     createPost(correlationId: string, post: PostV1,
@@ -24,5 +27,5 @@ export interface IPostsClientV1 {
         callback: (err: any, post: PostV1) => void): void;
 
     deletePostById(correlationId: string, postId: string,
-        callback: (err: any, post: PostV1) => void): void;            
+        callback: (err: any, post: PostV1) => void): void;
 }

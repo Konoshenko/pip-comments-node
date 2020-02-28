@@ -28,6 +28,7 @@ export class PostsCommandSet extends CommandSet {
          this.addCommand(this.makeGetPostByIdCommand());
          this.addCommand(this.makeUpdatePostCommand());
          this.addCommand(this.makeAddLikeToPost());
+         this.addCommand(this.makeTakeRepostByPostId());
     }
 
     private makeGetPostsCommand(): ICommand {
@@ -112,6 +113,18 @@ export class PostsCommandSet extends CommandSet {
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let siteId = args.getAsString('post_id');
                 this._controller.addLikeToPost(correlationId, siteId, callback);
+            }
+        );
+    }
+
+    private makeTakeRepostByPostId(): ICommand {
+        return new Command(
+            'take_repost',
+            new ObjectSchema(true)
+                .withRequiredProperty('post_id', TypeCode.String),
+            (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
+                let siteId = args.getAsString('post_id');
+                this._controller.takeRepostByPostId(correlationId, siteId, callback);
             }
         );
     }
