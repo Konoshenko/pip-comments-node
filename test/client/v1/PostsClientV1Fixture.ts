@@ -190,5 +190,38 @@ export class PostsClientV1Fixture {
             },
         ], done);
     }
+
+    public addLikeTest(done) {
+        async.series([
+            (callback) => {
+                this._client.createPost(
+                    null,
+                    POST1,
+                    (err, beacon) => {
+                        assert.isNull(err);
+                        assert.isObject(beacon);
+                        assert.equal(POST1.id, beacon.id);
+                    
+                        callback();
+                    }
+                );
+            },
+            // Add like
+            (callback) => {
+                this._client.addLikeToPost(
+                    null,
+                    POST1.id,
+                    (err, post) => {
+                        assert.isNull(err);
+                        assert.isObject(post);
+
+                        assert.equal(POST1.like_count + 1, post.like_count);
+            
+                        callback();
+                    }
+                );
+            },
+        ], done);
+    }
 }
 

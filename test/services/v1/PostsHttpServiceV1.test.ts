@@ -96,8 +96,7 @@ suite('PostsHttpServiceV1', () => {
     });
 
     test('CRUD Operations', (done) => {
-        let beacon1: PostV1;
-
+        let post1: PostV1;
         async.series([
             // Create the first post
             (callback) => {
@@ -105,13 +104,13 @@ suite('PostsHttpServiceV1', () => {
                     {
                         post: POST1
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST1.author_id, beacon.author_id);
-                        assert.equal(POST1.content_text, beacon.content_text);
+                        assert.isObject(post);
+                        assert.equal(POST1.author_id, post.author_id);
+                        assert.equal(POST1.content_text, post.content_text);
                      
-                        assert.equal(POST1.id, beacon.id);
+                        assert.equal(POST1.id, post.id);
 
                         callback();
                     }
@@ -123,13 +122,13 @@ suite('PostsHttpServiceV1', () => {
                     {
                         post: POST2
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST2.author_id, beacon.author_id);
-                        assert.equal(POST2.content_text, beacon.content_text);
+                        assert.isObject(post);
+                        assert.equal(POST2.author_id, post.author_id);
+                        assert.equal(POST2.content_text, post.content_text);
                         
-                        assert.equal(POST2.id, beacon.id);
+                        assert.equal(POST2.id, post.id);
 
                         callback();
                     }
@@ -148,7 +147,7 @@ suite('PostsHttpServiceV1', () => {
                         assert.isObject(page);
                         assert.lengthOf(page.data, 2);
 
-                        beacon1 = page.data[0];
+                        post1 = page.data[0];
 
                         callback();
                     }
@@ -156,17 +155,17 @@ suite('PostsHttpServiceV1', () => {
             },
             // Update the beacon
             (callback) => {
-                beacon1.content_text = 'ABC';
+                post1.content_text = 'ABC';
 
                 rest.post('/v1/posts/update_post',
                     {
-                        post: beacon1
+                        post: post1
                     },
                     (err, req, res, beacon) => {
                         assert.isNull(err);
 
                         assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
+                        assert.equal(post1.id, beacon.id);
                         assert.equal('ABC', beacon.content_text);
 
                         callback();
@@ -177,70 +176,60 @@ suite('PostsHttpServiceV1', () => {
             (callback) => {
                 rest.post('/v1/posts/get_post_by_id',
                     {
-                        id: beacon1.id
+                        id: post1.id
                     },
                     (err, req, res, beacon) => {
                         assert.isNull(err);
 
                         assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
+                        assert.equal(post1.id, beacon.id);
 
                         callback();
                     }
                 )
             },
-            // // Calculate position for one beacon
-            // (callback) => {
-            //     rest.post('/v1/beacons/calculate_position',
-            //         {
-            //             site_id: '1',
-            //             udis: ['00001']
-            //         },
-            //         (err, req, res, position) => {
-            //             assert.isNull(err);
-
-            //             assert.isObject(position);
-            //             assert.equal('Point', position.type);
-            //             assert.lengthOf(position.coordinates, 2);
-            //             assert.equal(0, position.coordinates[0]);
-            //             assert.equal(0, position.coordinates[1]);
-
-            //             callback();
-            //         }
-            //     )
-            // },
-            // Delete the beacon
+            // Add like
+            (callback) => {
+                rest.post('/v1/posts/add_like_to_post',
+                    {
+                        post_id: POST1.id,
+                    },
+                    (err, req, res, post) => {
+                        assert.isNull(err);
+                        assert.isObject(post);
+                        var count  = POST1.like_count +1
+                        assert.equal(post.like_count, count);
+                        callback();
+                    }
+                )
+            },
+            // Delete the post
             (callback) => {
                 rest.post('/v1/posts/delete_post_by_id',
                     {
-                        post_id: beacon1.id
+                        post_id: post1.id
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
-
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
-
+                        assert.isObject(post);
+                        assert.equal(post.id, post.id);
                         callback();
                     }
                 )
             },
-            // Try to get deleted beacon
+            // Try to get deleted post
             (callback) => {
                 rest.post('/v1/posts/get_post_by_id',
                     {
-                        id: beacon1.id
+                        id: post1.id
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
-
-                        //assert.isEmpty(beacon || null);
-
+                        assert.isEmpty(post || null);
                         callback();
                     }
                 )
             }
         ], done);
     });
-
 });

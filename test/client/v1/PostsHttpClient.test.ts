@@ -79,4 +79,8 @@ suite('PostsHttpClientV1', () => {
         fixture.testTakeRepost(done);
     });
 
+    test('Add like to post', (done) => {
+        fixture.addLikeTest(done);
+    });
+
 });
