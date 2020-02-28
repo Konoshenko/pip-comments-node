@@ -111,22 +111,7 @@ export class PostsClientV1Fixture {
                     }
                 )
             },
-            // Get beacon by udi
-            // (callback) => {
-            //     this._client.getPostByAuthorId(
-            //         null, 
-            //         post1.author_id,
-            //         (err, beacon) => {
-            //             assert.isNull(err);
-
-            //             assert.isObject(beacon);
-            //             assert.equal(post1.id, beacon.id);
-
-            //             callback();
-            //         }
-            //     )
-            // },
-            // Delete the beacon
+            // Delete the post
             (callback) => {
                 this._client.deletePostById(
                     null,
@@ -139,16 +124,14 @@ export class PostsClientV1Fixture {
                     }
                 )
             },
-            // Try to get deleted beacon
+            // Try to get deleted post
             (callback) => {
                 this._client.getPostById(
                     null,
                     post1.id,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-
-                        assert.isNull(beacon || null);
-
+                        assert.isNull(post || null);
                         callback();
                     }
                 )
@@ -158,16 +141,16 @@ export class PostsClientV1Fixture {
 
     public testTakeRepost(done) {
         async.series([
-            // Create the first beacon
+            // Create the first post
             (callback) => {
                 this._client.createPost(
                     null,
                     POST1,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(POST1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(POST1.id, post.id);
                     
                         callback();
                     }
@@ -179,11 +162,12 @@ export class PostsClientV1Fixture {
                     null,
                     POST1.id,
                     "444",
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST1.content_text, beacon.content_text);
-                        assert.notEqual(POST1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(POST1.content_text, post.content_text);
+                        assert.notEqual(POST1.id, post.id);
+                        assert.notEqual("444", POST1.author_id);
                         callback();
                     }
                 );
@@ -197,10 +181,10 @@ export class PostsClientV1Fixture {
                 this._client.createPost(
                     null,
                     POST1,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(POST1.id, post.id);
                     
                         callback();
                     }
@@ -214,9 +198,7 @@ export class PostsClientV1Fixture {
                     (err, post) => {
                         assert.isNull(err);
                         assert.isObject(post);
-
                         assert.equal(POST1.like_count + 1, post.like_count);
-            
                         callback();
                     }
                 );

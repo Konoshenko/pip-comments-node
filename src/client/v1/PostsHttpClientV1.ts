@@ -49,7 +49,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
     }
 
     public getPostById(correlationId: string, postId: string,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'get_post_by_id',
             correlationId,
@@ -61,7 +61,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
     }
 
     public getPostByAuthorId(correlationId: string, authorId: string,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'get_post_by_author_id',
             correlationId,

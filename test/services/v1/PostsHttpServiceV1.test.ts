@@ -153,7 +153,7 @@ suite('PostsHttpServiceV1', () => {
                     }
                 )
             },
-            // Update the beacon
+            // Update the post
             (callback) => {
                 post1.content_text = 'ABC';
 
@@ -161,28 +161,28 @@ suite('PostsHttpServiceV1', () => {
                     {
                         post: post1
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(post1.id, beacon.id);
-                        assert.equal('ABC', beacon.content_text);
+                        assert.isObject(post);
+                        assert.equal(post1.id, post.id);
+                        assert.equal('ABC', post.content_text);
 
                         callback();
                     }
                 )
             },
-            // Get beacon by udi
+            // Get post by udi
             (callback) => {
                 rest.post('/v1/posts/get_post_by_id',
                     {
                         id: post1.id
                     },
-                    (err, req, res, beacon) => {
+                    (err, req, res, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(post1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(post1.id, post.id);
 
                         callback();
                     }

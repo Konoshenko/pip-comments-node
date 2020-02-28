@@ -26,11 +26,11 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
     }
 
     public getPostById(correlationId: string, beaconId: string,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.get_post_by_id');
-        this._controller.getPostById(correlationId, beaconId, (err, beacon) => {
+        this._controller.getPostById(correlationId, beaconId, (err, post) => {
             timing.endTiming();
-            callback(err, beacon);
+            callback(err, post);
         }); 
     }
 
@@ -53,29 +53,29 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
     }
     
     public createPost(correlationId: string, post: PostV1,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.create_post');
-        this._controller.createPost(correlationId, post, (err, beacon) => {
+        this._controller.createPost(correlationId, post, (err, post) => {
             timing.endTiming();
-            callback(err, beacon);
+            callback(err, post);
         }); 
     }
 
     public updatePost(correlationId: string, post: PostV1,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.update_post');
-        this._controller.updatePost(correlationId, post, (err, beacon) => {
+        this._controller.updatePost(correlationId, post, (err, post) => {
             timing.endTiming();
-            callback(err, beacon);
+            callback(err, post);
         }); 
     }
 
     public deletePostById(correlationId: string, postId: string,
-        callback: (err: any, beacon: PostV1) => void): void {
+        callback: (err: any, post: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.delete_post_by_id');
-        this._controller.deletePostById(correlationId, postId, (err, beacon) => {
+        this._controller.deletePostById(correlationId, postId, (err, post) => {
             timing.endTiming();
-            callback(err, beacon);
+            callback(err, post);
         }); 
     }
 }

@@ -54,7 +54,7 @@ export class PostsMemoryPersistence
         let item = _.find(this._items, (item) => item.id == id);
 
         if (item != null) this._logger.trace(correlationId, "Found post by %s", id);
-        else this._logger.trace(correlationId, "Cannot find beacon by %s", id);
+        else this._logger.trace(correlationId, "Cannot find post by %s", id);
 
         callback(null, item);
     }

@@ -77,13 +77,13 @@ suite('PostsController', () => {
                 controller.createPost(
                     null,
                     POST1,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST1.author_id, beacon.author_id);
-                        assert.equal(POST1.content_text, beacon.content_text);
-                        assert.equal(POST1.create_time, beacon.create_time);
-                        assert.equal(POST1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(POST1.author_id, post.author_id);
+                        assert.equal(POST1.content_text, post.content_text);
+                        assert.equal(POST1.create_time, post.create_time);
+                        assert.equal(POST1.id, post.id);
 
                         callback();
                     }
@@ -94,13 +94,13 @@ suite('PostsController', () => {
                 controller.createPost(
                     null,
                     POST2,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
-                        assert.isObject(beacon);
-                        assert.equal(POST2.author_id, beacon.author_id);
-                        assert.equal(POST2.content_text, beacon.content_text);
-                        assert.equal(POST2.create_time, beacon.create_time);
-                        assert.equal(POST2.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(POST2.author_id, post.author_id);
+                        assert.equal(POST2.content_text, post.content_text);
+                        assert.equal(POST2.create_time, post.create_time);
+                        assert.equal(POST2.id, post.id);
 
                         callback();
                     }
@@ -124,63 +124,63 @@ suite('PostsController', () => {
                     }
                 )
             },
-            // Update the beacon
+            // Update the post
             (callback) => {
                 beacon1.content_text = 'ABC';
 
                 controller.updatePost(
                     null,
                     beacon1,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
-                        assert.equal('ABC', beacon.content_text);
+                        assert.isObject(post);
+                        assert.equal(beacon1.id, post.id);
+                        assert.equal('ABC', post.content_text);
 
                         callback();
                     }
                 )
             },
-            // Get beacon by udi
+            // Get post by udi
             (callback) => {
                 controller.getPostById(
                     null, 
                     beacon1.id,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(beacon1.id, post.id);
 
                         callback();
                     }
                 )
             },
-            // Delete the beacon
+            // Delete the post
             (callback) => {
                 controller.deletePostById(
                     null,
                     beacon1.id,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isObject(beacon);
-                        assert.equal(beacon1.id, beacon.id);
+                        assert.isObject(post);
+                        assert.equal(beacon1.id, post.id);
 
                         callback();
                     }
                 )
             },
-            // Try to get deleted beacon
+            // Try to get deleted post
             (callback) => {
                 controller.getPostById(
                     null,
                     beacon1.id,
-                    (err, beacon) => {
+                    (err, post) => {
                         assert.isNull(err);
 
-                        assert.isNull(beacon || null);
+                        assert.isNull(post || null);
 
                         callback();
                     }
@@ -192,45 +192,45 @@ suite('PostsController', () => {
 
     // test('Calculate Positions', (done) => {
     //     async.series([
-    //         // Create the first beacon
+    //         // Create the first post
     //         (callback) => {
     //             controller.createBeacon(
     //                 null,
     //                 BEACON1,
-    //                 (err, beacon) => {
+    //                 (err, post) => {
     //                     assert.isNull(err);
 
-    //                     assert.isObject(beacon);
-    //                     assert.equal(BEACON1.udi, beacon.udi);
-    //                     assert.equal(BEACON1.site_id, beacon.site_id);
-    //                     assert.equal(BEACON1.type, beacon.type);
-    //                     assert.equal(BEACON1.label, beacon.label);
-    //                     assert.isNotNull(beacon.center);
+    //                     assert.isObject(post);
+    //                     assert.equal(BEACON1.udi, post.udi);
+    //                     assert.equal(BEACON1.site_id, post.site_id);
+    //                     assert.equal(BEACON1.type, post.type);
+    //                     assert.equal(BEACON1.label, post.label);
+    //                     assert.isNotNull(post.center);
 
     //                     callback();
     //                 }
     //             );
     //         },
-    //         // Create the second beacon
+    //         // Create the second post
     //         (callback) => {
     //             controller.createBeacon(
     //                 null,
     //                 BEACON2,
-    //                 (err, beacon) => {
+    //                 (err, post) => {
     //                     assert.isNull(err);
 
-    //                     assert.isObject(beacon);
-    //                     assert.equal(BEACON2.udi, beacon.udi);
-    //                     assert.equal(BEACON2.site_id, beacon.site_id);
-    //                     assert.equal(BEACON2.type, beacon.type);
-    //                     assert.equal(BEACON2.label, beacon.label);
-    //                     assert.isNotNull(beacon.center);
+    //                     assert.isObject(post);
+    //                     assert.equal(BEACON2.udi, post.udi);
+    //                     assert.equal(BEACON2.site_id, post.site_id);
+    //                     assert.equal(BEACON2.type, post.type);
+    //                     assert.equal(BEACON2.label, post.label);
+    //                     assert.isNotNull(post.center);
 
     //                     callback();
     //                 }
     //             );
     //         },
-    //         // Calculate position for one beacon
+    //         // Calculate position for one post
     //         (callback) => {
     //             controller.calculatePosition(
     //                 null, '1', ['00001'],
@@ -247,7 +247,7 @@ suite('PostsController', () => {
     //                 }
     //             )
     //         },
-    //         // Calculate position for two beacons
+    //         // Calculate position for two posts
     //         (callback) => {
     //             controller.calculatePosition(
     //                 null, '1', ['00001', '00002'],
