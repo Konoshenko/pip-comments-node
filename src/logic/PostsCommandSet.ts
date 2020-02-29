@@ -109,11 +109,11 @@ export class PostsCommandSet extends CommandSet {
             'take_repost',
             new ObjectSchema(true)
                 .withRequiredProperty('post_id', TypeCode.String)
-                .withRequiredProperty('author_id', TypeCode.String),
+                .withRequiredProperty('post', new PostV1Schema()),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let siteId = args.getAsString('post_id');
-                let authorId = args.getAsString('author_id');
-                this._controller.takeRepostByPostId(correlationId, siteId, authorId, callback);
+                let post = args.getAsObject('post');
+                this._controller.takeRepostByPostId(correlationId, siteId, post, callback);
             }
         );
     }

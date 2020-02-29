@@ -9,6 +9,7 @@ export class PostV1Schema extends ObjectSchema {
 
         this.withRequiredProperty('id', TypeCode.String);
         this.withRequiredProperty('author_id', TypeCode.String);
+        this.withRequiredProperty('ref_post_id', TypeCode.String);
         this.withRequiredProperty('status', TypeCode.String);
         this.withRequiredProperty('create_time', TypeCode.String);
         this.withOptionalProperty('update_time', TypeCode.String);

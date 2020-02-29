@@ -3,6 +3,7 @@ import { IStringIdentifiable } from 'pip-services3-commons-node';
 export class PostV1 implements IStringIdentifiable {
     public id: string; 
     public author_id: string; 
+    public ref_post_id: string; 
     public status: string; 
     public create_time: string; 
     public update_time: string; 

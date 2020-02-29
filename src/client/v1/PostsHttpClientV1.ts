@@ -25,14 +25,14 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
         );
     }
 
-    takeRepostByPostId(correlationId: string, postId: string,authorId: string,
+    takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'take_repost',
             correlationId,
             {
                 post_id: postId,
-                author_id: authorId
+                post: post
             },
             callback
         );

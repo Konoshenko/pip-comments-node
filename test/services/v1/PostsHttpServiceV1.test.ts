@@ -17,6 +17,7 @@ import { PostsHttpServiceV1 } from '../../../src/services/v1/PostsHttpServiceV1'
 
 const POST1: PostV1 = {
     id: '1',
+    ref_post_id:"",
     author_id: '1',
     status: PostStatusV1.Public,
     content_text: 'First post in system',
@@ -33,6 +34,7 @@ const POST1: PostV1 = {
 const POST2: PostV1 = {
     id: '2',
     author_id: '1',
+    ref_post_id:"",
     status: PostStatusV1.Archive,
     content_text: 'Second post in system',
     create_time: "string",

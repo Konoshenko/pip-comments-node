@@ -12,6 +12,7 @@ import { IPostsPersistence } from '../../src/persistence/IPostsPersistence';
 const POST1: PostV1 = {
     id: '1',
     author_id: '1',
+    ref_post_id:"",
     status: PostStatusV1.Public,
     content_text: 'First post in system',
     create_time: "string",
@@ -27,6 +28,7 @@ const POST1: PostV1 = {
 const POST2: PostV1 = {
     id: '2',
     author_id: '1',
+    ref_post_id:"",
     status: PostStatusV1.Archive,
     content_text: 'Second post in system',
     create_time: "string",
@@ -42,6 +44,7 @@ const POST2: PostV1 = {
 const POST3: PostV1 = {
     id: '3',
     author_id: '2',
+    ref_post_id:"",
     status: PostStatusV1.Archive,
     content_text: 'Third post in system',
     create_time: "string",

@@ -12,9 +12,6 @@ export interface IPostsPersistence {
     getOneById(correlationId: string, id: string,
         callback: (err: any, item: PostV1) => void): void;
 
-    getOneById(correlationId: string, id: string,
-        callback: (err: any, item: PostV1) => void): void;
-
     create(correlationId: string, item: PostV1,
         callback: (err: any, item: PostV1) => void): void;
 

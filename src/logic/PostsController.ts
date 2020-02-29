@@ -75,7 +75,46 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
 
     public deletePostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void {
-        this._persistence.deleteById(correlationId, postId, callback);
+
+        async.waterfall([
+            (callback) => {
+                this._persistence.getOneById(
+                    correlationId,
+                    postId,
+                    (err, post) => {
+                        callback(err, post);
+                    }
+                );
+            },
+            (deletePost, callback) => {
+                if (deletePost!=null && deletePost.ref_post_id!="") {
+                    this._persistence.getOneById(
+                        correlationId,
+                        deletePost.ref_post_id,
+                        (err, post) => {
+                            callback(err, deletePost, post);
+                        }
+                    );
+                }else{
+                    callback(null,deletePost,null)
+                }
+            },
+            (deletePost, refPost, callback) => {
+                if(refPost!=null){
+                    refPost.repost_count = refPost.repost_count - 1
+                    this._persistence.update(correlationId, refPost, (err,updatedPost)=>{
+                        callback(err,deletePost)
+                    })
+                }else{
+                    callback(null,deletePost)
+                }
+               
+            },
+            (deletedPost, callback) => {
+                this._persistence.deleteById(correlationId, deletedPost.id, callback);
+            }
+        ], (err,deletedPost) => { callback(err, err == null ? deletedPost : null); });
+
     }
 
     public addLikeToPost(correlationId: string, siteId: string,
@@ -99,36 +138,10 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
         ], (err) => { callback(err, err == null ? postN : null); });
     }
 
-    public takeRepostByPostId(correlationId: string, postId: string, authorId: string,
+    public takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, position: any) => void): void {
-        let postN: PostV1;
-        let postReposted:PostV1 
-        async.series([
-            (callback) => {
-                this._persistence.getOneById(
-                    correlationId,
-                    postId,
-                    (err, page) => {
-                        postN = page ? page : null;
-                        callback(err);
-                    }
-                );
-            },
-            (callback) => {
-                postN.repost_count = postN.repost_count + 1
-                this._persistence.update(correlationId, postN, (err, page) => {
-                    postN = page ? page : null;
-                    callback(err);
-                });
-
-            }, (callback) => {
-                postReposted  = {...postN};
-                postReposted.id = IdGenerator.nextLong();
-                postReposted.author_id = authorId;
-                postReposted.attachment_ids.push(postId);
-                this._persistence.create(correlationId, postReposted, callback());
-            }
-        ], (err) => { callback(err, err == null ? postReposted : null); });
+        post.ref_post_id = postId;
+        this.createPost(correlationId, post, callback);
     }
 
 }

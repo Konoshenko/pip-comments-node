@@ -14,6 +14,7 @@ const POST1: PostV1 = {
     author_id: '1',
     status: PostStatusV1.Public,
     content_text: 'First post in system',
+    ref_post_id:"",
     create_time: "string",
     update_time: "string",
     attachment_ids: [],
@@ -27,6 +28,23 @@ const POST1: PostV1 = {
 const POST2: PostV1 = {
     id: '2',
     author_id: '1',
+    ref_post_id:"",
+    status: PostStatusV1.Archive,
+    content_text: 'Second post in system',
+    create_time: "string",
+    update_time: "string",
+    attachment_ids: [],
+    comment_count: 0,
+    view_count: 0,
+    repost_count: 0,
+    report_count: 0,
+    like_count: 0,
+};
+
+const POST3: PostV1 = {
+    id: '3',
+    author_id: '1',
+    ref_post_id:"",
     status: PostStatusV1.Archive,
     content_text: 'Second post in system',
     create_time: "string",
@@ -148,7 +166,6 @@ export class PostsClientV1Fixture {
                     POST1,
                     (err, post) => {
                         assert.isNull(err);
-
                         assert.isObject(post);
                         assert.equal(POST1.id, post.id);
                     
@@ -161,13 +178,11 @@ export class PostsClientV1Fixture {
                 this._client.takeRepostByPostId(
                     null,
                     POST1.id,
-                    "444",
+                    POST3,
                     (err, post) => {
                         assert.isNull(err);
                         assert.isObject(post);
-                        assert.equal(POST1.content_text, post.content_text);
-                        assert.notEqual(POST1.id, post.id);
-                        assert.notEqual("444", POST1.author_id);
+                        assert.equal(POST1.id, post.ref_post_id);
                         callback();
                     }
                 );

@@ -24,7 +24,7 @@ export interface IPostsController {
     deletePostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    takeRepostByPostId(correlationId: string, postId: string,authorId: string,
+    takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void;
 
 }

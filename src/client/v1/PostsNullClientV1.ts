@@ -22,7 +22,7 @@ export class PostsNullClientV1 implements IPostsClientV1 {
         callback(null, null);
     }
 
-    public takeRepostByPostId(correlationId: string, siteId: string, authorId: string,
+    public takeRepostByPostId(correlationId: string, siteId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         callback(null, null);
     }

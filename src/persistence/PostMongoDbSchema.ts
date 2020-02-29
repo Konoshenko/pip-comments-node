@@ -8,6 +8,7 @@ export let PostsMongoDbSchema = function (collection?: string) {
             _id: { type: String },
             author_id: { type: String },
             status: { type: String },
+            ref_post_id: { type: String },
             create_time: { type: String },
             update_time: { type: String },
             content_text: { type: String },

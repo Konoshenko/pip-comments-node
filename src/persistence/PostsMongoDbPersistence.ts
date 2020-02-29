@@ -48,21 +48,4 @@ export class PostsMongoDbPersistence
         callback: (err: any, page: DataPage<PostV1>) => void): void {
         super.getPageByFilter(correlationId, this.composeFilter(filter), paging, null, null, callback);
     }
-
-    public getOneByUdi(correlationId: string, id: string,
-        callback: (err: any, item: PostV1) => void): void {
-
-        let criteria = {
-            id: id
-        };
-
-        this._client._model.findOne(criteria, (err, item) => {
-            item = this.convertFromPublic(item);
-
-            if (item != null) this._logger.trace(correlationId, "Found post by %s", id);
-            else this._logger.trace(correlationId, "Cannot find post by %s", id);
-
-            callback(err, item);
-        });
-    }
 }
