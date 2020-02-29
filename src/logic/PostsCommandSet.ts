@@ -99,7 +99,7 @@ export class PostsCommandSet extends CommandSet {
                 .withRequiredProperty('post_id', TypeCode.String),
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let siteId = args.getAsString('post_id');
-                this._controller.addLikeToPost(correlationId, siteId, callback);
+                this._controller.addLike(correlationId, siteId, callback);
             }
         );
     }
@@ -113,7 +113,7 @@ export class PostsCommandSet extends CommandSet {
             (correlationId: string, args: Parameters, callback: (err: any, result: any) => void) => {
                 let siteId = args.getAsString('post_id');
                 let post = args.getAsObject('post');
-                this._controller.takeRepostByPostId(correlationId, siteId, post, callback);
+                this._controller.takeRepost(correlationId, siteId, post, callback);
             }
         );
     }

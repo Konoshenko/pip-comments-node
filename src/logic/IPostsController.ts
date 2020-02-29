@@ -18,13 +18,13 @@ export interface IPostsController {
     updatePost(correlationId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void;
 
-    addLikeToPost(correlationId: string, postId: string,
+    addLike(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
 
     deletePostById(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void;
 
-    takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
+    takeRepost(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void;
 
 }

@@ -17,12 +17,12 @@ export class PostsNullClientV1 implements IPostsClientV1 {
         callback(null, null);
     }
 
-    public addLikeToPost(correlationId: string, siteId: string, 
+    public addLike(correlationId: string, siteId: string, 
         callback: (err: any, post: PostV1) => void): void {
         callback(null, null);
     }
 
-    public takeRepostByPostId(correlationId: string, siteId: string, post: PostV1,
+    public takeRepost(correlationId: string, siteId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         callback(null, null);
     }

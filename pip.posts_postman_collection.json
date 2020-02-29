@@ -114,7 +114,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"post_id\":\"2\"\n}",
+					"raw": "{\n\t\"post_id\":\"01bf3ed1d54e4b50ba67277e26f81b72\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -188,7 +188,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"post_id\": \"2\",\n    \"author_id\":\"1662\"\n}",
+					"raw": "{\n    \"post_id\": \"52d44c3d71034448b6bb9ca0c6c84a17\",\n    \"post\" : {\n        \"id\": \"\",\n        \"author_id\": \"222\",\n       \"ref_post_id\":\"\",\n        \"status\": \"ARCHIVE\",\n        \"content_text\": \"Third post in system\",\n        \"create_time\": \"string\",\n        \"update_time\": \"string\",\n        \"attachment_ids\": [],\n        \"comment_count\": 0,\n        \"view_count\": 0,\n        \"repost_count\": 0,\n        \"report_count\": 0,\n        \"like_count\": 0\n    }}\n}",
 					"options": {
 						"raw": {
 							"language": "json"

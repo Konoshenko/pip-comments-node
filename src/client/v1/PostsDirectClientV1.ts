@@ -34,19 +34,19 @@ export class PostsDirectClientV1 extends DirectClient<IPostsController> implemen
         }); 
     }
 
-    public addLikeToPost(correlationId: string, siteId: string, 
+    public addLike(correlationId: string, siteId: string, 
         callback: (err: any, position: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.add_like_to_post');
-        this._controller.addLikeToPost(correlationId, siteId, (err, position) => {
+        this._controller.addLike(correlationId, siteId, (err, position) => {
             timing.endTiming();
             callback(err, position);
         }); 
     }
 
-    public takeRepostByPostId(correlationId: string, postId: string, post: PostV1, 
+    public takeRepost(correlationId: string, postId: string, post: PostV1, 
         callback: (err: any, position: PostV1) => void): void {
         let timing = this.instrument(correlationId, 'posts.take_repost');
-        this._controller.takeRepostByPostId(correlationId, postId,post, (err, position) => {
+        this._controller.takeRepost(correlationId, postId,post, (err, position) => {
             timing.endTiming();
             callback(err, position);
         }); 

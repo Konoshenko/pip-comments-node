@@ -20,8 +20,8 @@ const POST1: PostV1 = {
     content_text: 'First post in system',
     create_time: "string",
     update_time: "string",
-    ref_post_id:"",
-    attachment_ids: ["asd","asd"],
+    ref_post_id: "",
+    attachment_ids: ["asd", "asd"],
     comment_count: 0,
     view_count: 0,
     repost_count: 0,
@@ -33,11 +33,11 @@ const POST2: PostV1 = {
     id: '2',
     author_id: '1',
     status: PostStatusV1.Archive,
-    ref_post_id:"",
+    ref_post_id: "",
     content_text: 'Second post in system',
     create_time: "string",
     update_time: "string",
-    attachment_ids: ["asd","asd"],
+    attachment_ids: ["asd", "asd"],
     comment_count: 0,
     view_count: 0,
     repost_count: 0,
@@ -71,7 +71,7 @@ suite('PostsController', () => {
     });
 
     test('CRUD Operations', (done) => {
-        let beacon1: PostV1;
+        let post1: PostV1;
 
         async.series([
             // Create the first post
@@ -120,7 +120,7 @@ suite('PostsController', () => {
                         assert.isObject(page);
                         assert.lengthOf(page.data, 2);
 
-                        beacon1 = page.data[0];
+                        post1 = page.data[0];
 
                         callback();
                     }
@@ -128,18 +128,15 @@ suite('PostsController', () => {
             },
             // Update the post
             (callback) => {
-                beacon1.content_text = 'ABC';
-
+                post1.content_text = 'ABC';
                 controller.updatePost(
                     null,
-                    beacon1,
+                    post1,
                     (err, post) => {
                         assert.isNull(err);
-
                         assert.isObject(post);
-                        assert.equal(beacon1.id, post.id);
+                        assert.equal(post1.id, post.id);
                         assert.equal('ABC', post.content_text);
-
                         callback();
                     }
                 )
@@ -147,13 +144,13 @@ suite('PostsController', () => {
             // Get post by udi
             (callback) => {
                 controller.getPostById(
-                    null, 
-                    beacon1.id,
+                    null,
+                    post1.id,
                     (err, post) => {
                         assert.isNull(err);
 
                         assert.isObject(post);
-                        assert.equal(beacon1.id, post.id);
+                        assert.equal(post1.id, post.id);
 
                         callback();
                     }
@@ -163,12 +160,12 @@ suite('PostsController', () => {
             (callback) => {
                 controller.deletePostById(
                     null,
-                    beacon1.id,
+                    post1.id,
                     (err, post) => {
                         assert.isNull(err);
 
                         assert.isObject(post);
-                        assert.equal(beacon1.id, post.id);
+                        assert.equal(post1.id, post.id);
 
                         callback();
                     }
@@ -178,12 +175,10 @@ suite('PostsController', () => {
             (callback) => {
                 controller.getPostById(
                     null,
-                    beacon1.id,
+                    post1.id,
                     (err, post) => {
                         assert.isNull(err);
-
                         assert.isNull(post || null);
-
                         callback();
                     }
                 )

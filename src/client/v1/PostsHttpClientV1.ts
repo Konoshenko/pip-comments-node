@@ -13,7 +13,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
         super('v1/posts');
     }
 
-    addLikeToPost(correlationId: string, postId: string,
+    addLike(correlationId: string, postId: string,
         callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'add_like_to_post',
@@ -25,7 +25,7 @@ export class PostsHttpClientV1 extends CommandableHttpClient implements IPostsCl
         );
     }
 
-    takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
+    takeRepost(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, post: PostV1) => void): void {
         this.callCommand(
             'take_repost',

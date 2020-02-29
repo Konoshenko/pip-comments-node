@@ -175,7 +175,7 @@ export class PostsClientV1Fixture {
             },
             // Take repost
             (callback) => {
-                this._client.takeRepostByPostId(
+                this._client.takeRepost(
                     null,
                     POST1.id,
                     POST3,
@@ -183,6 +183,7 @@ export class PostsClientV1Fixture {
                         assert.isNull(err);
                         assert.isObject(post);
                         assert.equal(POST1.id, post.ref_post_id);
+                        assert.equal(POST3.content_text, post.content_text);
                         callback();
                     }
                 );
@@ -200,14 +201,13 @@ export class PostsClientV1Fixture {
                         assert.isNull(err);
                         assert.isObject(post);
                         assert.equal(POST1.id, post.id);
-                    
                         callback();
                     }
                 );
             },
             // Add like
             (callback) => {
-                this._client.addLikeToPost(
+                this._client.addLike(
                     null,
                     POST1.id,
                     (err, post) => {

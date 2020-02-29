@@ -45,7 +45,4 @@ suite('PostsDirectClientV1', () => {
         fixture.testCrudOperations(done);
     });
 
-    // test('Calculate Positions', (done) => {
-    //     fixture.testCalculatePosition(done);
-    // });
 });
