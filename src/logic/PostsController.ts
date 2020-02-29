@@ -87,7 +87,7 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
                 );
             },
             (deletePost, callback) => {
-                if (deletePost!=null && deletePost.ref_post_id!="") {
+                if (deletePost != null && deletePost.ref_post_id != "") {
                     this._persistence.getOneById(
                         correlationId,
                         deletePost.ref_post_id,
@@ -95,25 +95,25 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
                             callback(err, deletePost, post);
                         }
                     );
-                }else{
-                    callback(null,deletePost,null)
+                } else {
+                    callback(null, deletePost, null)
                 }
             },
             (deletePost, refPost, callback) => {
-                if(refPost!=null){
+                if (refPost != null) {
                     refPost.repost_count = refPost.repost_count - 1
-                    this._persistence.update(correlationId, refPost, (err,updatedPost)=>{
-                        callback(err,deletePost)
+                    this._persistence.update(correlationId, refPost, (err, updatedPost) => {
+                        callback(err, deletePost)
                     })
-                }else{
-                    callback(null,deletePost)
+                } else {
+                    callback(null, deletePost)
                 }
-               
+
             },
             (deletedPost, callback) => {
                 this._persistence.deleteById(correlationId, deletedPost.id, callback);
             }
-        ], (err,deletedPost) => { callback(err, err == null ? deletedPost : null); });
+        ], (err, deletedPost) => { callback(err, err == null ? deletedPost : null); });
 
     }
 
@@ -140,8 +140,26 @@ export class PostsController implements IPostsController, IConfigurable, IRefere
 
     public takeRepostByPostId(correlationId: string, postId: string, post: PostV1,
         callback: (err: any, position: any) => void): void {
-        post.ref_post_id = postId;
-        this.createPost(correlationId, post, callback);
+       
+        async.waterfall([
+            (callback) => {
+                this._persistence.getOneById(
+                    correlationId,
+                    postId,
+                    (err, post) => {
+                        callback(err,post);
+                    }
+                );
+            },
+            (post,callback) => {
+                post.repost_count = post.repost_count + 1
+                callback();
+            }, (callback) => {
+                post.ref_post_id = postId;
+                this.createPost(correlationId, post, callback);
+            }
+        ], (err,repost) => { callback(err, err == null ? repost : null); });
+
     }
 
 }
